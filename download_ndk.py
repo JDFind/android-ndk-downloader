@@ -23,11 +23,11 @@ import json
 import os
 
 def init():
-    """
-    Return name/link dict
 
-    @return: name-to-link dict
-    """
+    # fix Python 2.x/ 3.x compatibility issues with raw_input/ input
+    try: input = raw_input
+    except NameError: pass
+
     with open('table.json') as data_file:
         url_table = json.load(data_file)
 
@@ -90,6 +90,6 @@ def download(url):
 
 if __name__ == '__main__':
     url_table = init()
-    var = raw_input("Please enter the numer you want to download: ")
+    var = input("Please enter the numer you want to download: ")
     link = getTargetLink(int(var), url_table)
     download(link)
