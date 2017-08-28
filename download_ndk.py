@@ -63,8 +63,7 @@ def download(url):
     file_name = url.split('/')[-1]
     u = urlopen(url)
     f = open(file_name, 'wb')
-    meta = u.info()
-    file_size = int(meta.getheaders("Content-Length")[0])
+    file_size = int(u.headers['Content-Length'])
     print("Downloading: %s Bytes: %s" % (file_name, file_size))
 
     file_size_dl = 0
