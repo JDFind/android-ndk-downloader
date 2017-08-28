@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
-# Author:: Tzutalin <tzu.ta.lin@gmail.com>
-#
+# Modifications Copyright 2017 JDFind
+# Author: Tzutalin <tzu.ta.lin@gmail.com>
 # Copyright 2017 Tzutalin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,17 +17,21 @@
 # limitations under the License.
 #
 
-import urllib2
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
 import collections
 import json
 import os
 
 def init():
-    """
-    Return name/link dict
 
-    @return: name-to-link dict
-    """
+    # fix Python 2.x/ 3.x compatibility issues with raw_input/ input
+    try: input = raw_input
+    except NameError: pass
+
     with open('table.json') as data_file:
         url_table = json.load(data_file)
 
@@ -40,21 +44,11 @@ def init():
     index = 0
     for key in url_table:
         index = index + 1
-        print str(index) + '] ' + key
+        print(str(index) + '] ' + key)
 
     return url_table
 
 def getTargetLink(desired_index, url_table):
-    """
-    Return download link
-
-    @type  desired_index: number
-    @param desired_index: Desired index
-    @type  url_table: dict
-    @param url_table: name-to-link
-
-    @return: Download link
-    """
     index = 0
     for key in url_table:
         index = index + 1
@@ -67,11 +61,10 @@ def download(url):
         return
 
     file_name = url.split('/')[-1]
-    u = urllib2.urlopen(url)
+    u = urlopen(url)
     f = open(file_name, 'wb')
-    meta = u.info()
-    file_size = int(meta.getheaders("Content-Length")[0])
-    print "Downloading: %s Bytes: %s" % (file_name, file_size)
+    file_size = int(u.headers['Content-Length'])
+    print("Downloading: %s Bytes: %s" % (file_name, file_size))
 
     file_size_dl = 0
     block_sz = 8192
@@ -84,12 +77,12 @@ def download(url):
         f.write(buffer)
         status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
         status = status + chr(8)*(len(status)+1)
-        print status,
+        print(status)
 
     f.close()
 
 if __name__ == '__main__':
     url_table = init()
-    var = raw_input("Please enter the numer you want to download: ")
+    var = input("Please enter the numer you want to download: ")
     link = getTargetLink(int(var), url_table)
     download(link)
