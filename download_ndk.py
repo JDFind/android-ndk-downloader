@@ -17,7 +17,11 @@
 # limitations under the License.
 #
 
-import urllib2
+try:
+    from urllib.request import urlopen
+except ImportError:
+    from urllib2 import urlopen
+
 import collections
 import json
 import os
@@ -45,16 +49,6 @@ def init():
     return url_table
 
 def getTargetLink(desired_index, url_table):
-    """
-    Return download link
-
-    @type  desired_index: number
-    @param desired_index: Desired index
-    @type  url_table: dict
-    @param url_table: name-to-link
-
-    @return: Download link
-    """
     index = 0
     for key in url_table:
         index = index + 1
@@ -67,7 +61,7 @@ def download(url):
         return
 
     file_name = url.split('/')[-1]
-    u = urllib2.urlopen(url)
+    u = urlopen(url)
     f = open(file_name, 'wb')
     meta = u.info()
     file_size = int(meta.getheaders("Content-Length")[0])
