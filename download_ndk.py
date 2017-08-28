@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
-# Author:: Tzutalin <tzu.ta.lin@gmail.com>
-#
+# Modifications Copyright 2017 JDFind
+# Author: Tzutalin <tzu.ta.lin@gmail.com>
 # Copyright 2017 Tzutalin
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,7 @@ def init():
     index = 0
     for key in url_table:
         index = index + 1
-        print str(index) + '] ' + key
+        print(str(index) + '] ' + key)
 
     return url_table
 
@@ -71,7 +71,7 @@ def download(url):
     f = open(file_name, 'wb')
     meta = u.info()
     file_size = int(meta.getheaders("Content-Length")[0])
-    print "Downloading: %s Bytes: %s" % (file_name, file_size)
+    print("Downloading: %s Bytes: %s" % (file_name, file_size))
 
     file_size_dl = 0
     block_sz = 8192
@@ -84,7 +84,7 @@ def download(url):
         f.write(buffer)
         status = r"%10d  [%3.2f%%]" % (file_size_dl, file_size_dl * 100. / file_size)
         status = status + chr(8)*(len(status)+1)
-        print status,
+        print(status)
 
     f.close()
 
