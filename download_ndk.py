@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-#
-# Modifications Copyright 2017 JDFind
+
+# Modifications Copyright 2018 JDFind
 # Author: Tzutalin <tzu.ta.lin@gmail.com>
 # Copyright 2017 Tzutalin
 #
@@ -15,7 +15,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 try:
     from urllib.request import urlopen
@@ -28,7 +27,7 @@ import os
 
 def init():
 
-    # fix Python 2.x/ 3.x compatibility issues with raw_input/ input
+    # fixes Python 2.x/ 3.x compatibility issues with raw_input/ input
     try: input = raw_input
     except NameError: pass
 
@@ -39,12 +38,10 @@ def init():
         print('\033[91m' + ' There is no item in table.json ' + '\033[0m')
         os.sys.exit(0)
 
-    # Sort alphabetically
-    url_table = collections.OrderedDict(sorted(url_table.items()))
     index = 0
     for key in url_table:
         index = index + 1
-        print(str(index) + '] ' + key)
+        print('[' + str(index) + ']\t' + key)
 
     return url_table
 
